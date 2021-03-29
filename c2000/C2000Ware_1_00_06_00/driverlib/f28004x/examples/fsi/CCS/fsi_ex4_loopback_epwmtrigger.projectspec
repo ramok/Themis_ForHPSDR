@@ -1,0 +1,21 @@
+<projectSpec>
+  <project
+        name="fsi_ex4_loopback_epwmtrigger"
+        device="TMS320F280049M"
+        cgtVersion="16.9.1.LTS"
+        launchWizard="False"
+        linkerCommandFile=""
+        >
+    <configuration name="CPU1_RAM" compilerBuildOptions="-v28 -ml -mt --cla_support=cla2 --float_support=fpu32 --tmu_support=tmu0 --vcu_support=vcu0 --opt_level=off -I${PROJECT_ROOT}/device -I${C2000WARE_DLIB_ROOT} --define=DEBUG --diag_warning=225 --diag_suppress=10063 --display_error_number" linkerBuildOptions="--stack_size=0x400 --heap_size=0x200 --define=RAM" />    
+    <configuration name="CPU1_FLASH" compilerBuildOptions="-v28 -ml -mt --cla_support=cla2 --float_support=fpu32 --tmu_support=tmu0 --vcu_support=vcu0 --opt_level=off -I${PROJECT_ROOT}/device -I${C2000WARE_DLIB_ROOT} --define=DEBUG --define=_FLASH --diag_warning=225 --diag_suppress=10063 --display_error_number" linkerBuildOptions="--stack_size=0x400 --heap_size=0x200 --define=FLASH" />    
+    <pathVariable name="C2000WARE_DLIB_ROOT" path="../../../driverlib/" scope="project" />
+    <file action="copy" path="../../../../../device_support/f28004x/common/include/driverlib.h" targetDirectory="device" />
+    <file action="copy" path="../../../../../device_support/f28004x/common/include/device.h" targetDirectory="device" />
+    <file action="copy" path="../../../../../device_support/f28004x/common/source/device.c" targetDirectory="device" />
+    <file action="copy" path="../../../../../device_support/f28004x/common/targetConfigs/TMS320F280049M.ccxml" targetDirectory="targetConfigs" />
+    <file action="copy" path="../../../../../device_support/f28004x/common/cmd/28004x_fsi_ram_lnk.cmd" targetDirectory="" applicableConfigurations="CPU1_RAM" />
+    <file action="copy" path="../../../../../device_support/f28004x/common/cmd/28004x_generic_flash_lnk.cmd" targetDirectory="" applicableConfigurations="CPU1_FLASH" />
+    <file action="copy" path="../../../driverlib/ccs/Debug/driverlib.lib" targetDirectory="" />
+    <file action="copy" path="../fsi_ex4_loopback_epwmtrigger.c" targetDirectory="" />
+  </project>
+</projectSpec>
