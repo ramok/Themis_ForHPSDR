@@ -4,3 +4,5 @@ Cover pic here:
 http://www.arrl.org/images/view//QEX_Page/Covers/QEX_July_August_Cover.jpg
 Table of contents here:
 http://www.arrl.org/files/file/QEX_Next_Issue/July-August2019/TOFC.pdf
+Schematic is posted here:
+http://www.westmorelandengineering.com/OpenHPSDR/Projects/Themis/THEMIS_For_Review_012814_Rev0A.PDF
