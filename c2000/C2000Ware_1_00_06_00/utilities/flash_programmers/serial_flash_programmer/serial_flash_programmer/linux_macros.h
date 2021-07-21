@@ -10,6 +10,9 @@
 #ifndef __LINUX_MACROS_H__
 #define __LINUX_MACROS_H__
 
+#include <sys/time.h>
+#include <wchar.h>
+
 #define TRUE true
 #define FALSE false
 
@@ -20,6 +23,15 @@ typedef unsigned short WORD;
 #define wchar_t char
 #define fscanf_s fscanf
 #define _tmain main
+#define Sleep sleep
+#define GetTickCount get_tick_count
+
+inline DWORD get_tick_count()
+{
+    struct timeval time_now{};
+    gettimeofday(&time_now, nullptr);
+    return (time_now.tv_sec * 1000) + (time_now.tv_usec / 1000);
+}
 
 #ifdef UNICODE 
 

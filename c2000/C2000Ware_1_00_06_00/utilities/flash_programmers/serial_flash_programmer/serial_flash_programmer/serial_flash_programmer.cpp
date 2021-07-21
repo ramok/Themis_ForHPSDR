@@ -20,32 +20,6 @@
 #include <iomanip>
 using namespace std;
 
-#include "include/f05_DownloadImage.h"
-#include "include/f021_DownloadImage.h"
-#include "include/f021_DownloadKernel.h"
-#include "include/f021_SendMessage.h"
-
-//Prototypes
-void ExitApp(int iRetcode);
-void PrintWelcome(void);
-void ShowHelp(void);
-int ParseCommandLine(int argc, wchar_t *argv[]);
-void setDeviceName(void);
-void setEraseSector(unsigned int CPU, uint32_t Sector);
-void checkErrors(void);
-void getStatus(void);
-void printErrorStatus(uint16_t status);
-// formatting memory address output. Bug fix where 0x80000 would be shown as 80.
-uint32_t formatMemAddr(uint16_t firstHalf, uint16_t secondHalf);
-extern void autobaudLock(void);
-extern int f021_DownloadImage(void);
-extern int f05_DownloadImage(void);
-extern int f021_DownloadKernel(wchar_t* kernel);
-extern uint32_t constructPacket(uint8_t* packet, uint16_t command, uint16_t length, uint8_t * data);
-extern int f021_SendPacket(uint8_t* packet, uint32_t length);
-extern int receiveACK(void);
-extern uint16_t getPacket(uint16_t* length, uint16_t* data);
-extern uint16_t getWord(void);
 
 #ifndef __linux__
 #pragma once
@@ -63,7 +37,35 @@ extern uint16_t getWord(void);
 #include <unistd.h>
 #include <fcntl.h>
 #include "linux_macros.h"
+#include "include/f05_DownloadImage.h"
+#include "include/f021_DownloadImage.h"
+#include "include/f021_DownloadKernel.h"
+#include "include/f021_SendMessage.h"
+#endif
 
+//Prototypes
+void ExitApp(int iRetcode);
+void PrintWelcome(void);
+void ShowHelp(void);
+int ParseCommandLine(int argc, TCHAR *argv[]);
+void setDeviceName(void);
+void setEraseSector(unsigned int CPU, uint32_t Sector);
+void checkErrors(void);
+void getStatus(void);
+void printErrorStatus(uint16_t status);
+// formatting memory address output. Bug fix where 0x80000 would be shown as 80.
+uint32_t formatMemAddr(uint16_t firstHalf, uint16_t secondHalf);
+extern void autobaudLock(void);
+extern int f021_DownloadImage(void);
+extern int f05_DownloadImage(void);
+extern int f021_DownloadKernel(wchar_t* kernel);
+extern uint32_t constructPacket(uint8_t* packet, uint16_t command, uint16_t length, uint8_t * data);
+extern int f021_SendPacket(uint8_t* packet, uint32_t length);
+extern int receiveACK(void);
+extern uint16_t getPacket(uint16_t* length, uint16_t* data);
+extern uint16_t getWord(void);
+
+#ifdef __linux__
 int _kbhit(void)
 {
   struct termios oldt, newt;
@@ -226,6 +228,7 @@ int
 _tmain(int argc, TCHAR* argv[])
 {
 	int iExitCode = 0;
+	int iRetCode = 0;
 
 	//
 	// Parse the command line parameters, print the welcome banner and
@@ -272,8 +275,6 @@ _tmain(int argc, TCHAR* argv[])
 
 	//For Windows
 #else
-
-	int iRetCode = 0;
 	TCHAR baudString[32];
 	TCHAR comString[32];
 
@@ -1300,7 +1301,7 @@ ShowHelp(void)
 //
 //*****************************************************************************
 int
-ParseCommandLine(int argc, wchar_t *argv[])
+ParseCommandLine(int argc, TCHAR *argv[])
 {
 	int iParm;
 	bool bShowHelp;

@@ -11,9 +11,6 @@
 // $Release Date: Octobe 23, 2014 $
 //###########################################################################
 
-#include "../include/f021_DownloadKernel.h"
-
-#include "stdafx.h"
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -21,6 +18,7 @@
 
 #ifndef __linux__
 #pragma once
+#include "stdafx.h"
 #include <conio.h>
 #include <windows.h>
 #include <dos.h>
@@ -35,10 +33,11 @@
 #include <termios.h>
 #include <unistd.h>
 #include <fcntl.h>
-#include "linux_macros.h"
+#include "../linux_macros.h"
 
 #endif //__linux__
 
+#include "../include/f021_DownloadKernel.h"
 
 //*****************************************************************************
 //
@@ -214,7 +213,7 @@ void loadProgram(FILE *fh)
 		       	QUIETPRINT(_T("Error %s\n"), strerror(errno));
 		    }
             dwRead = readf;
-		    rcvDataH = buf[0];
+		    //rcvDataH = buf[0];
 #else            
             ReadFile(file, &rcvData, 1, &dwRead, NULL);
 #endif
@@ -267,7 +266,7 @@ f021_DownloadKernel(wchar_t * kernel)
 
 	// Opens the Flash Kernel File
     #ifdef  __linux__
-	Kfh = fopen(kernel, _T("rb"));
+	Kfh = fopen(kernel, "rb");
 	#else
 	Kfh = _tfopen(kernel, _T("rb"));
     #endif

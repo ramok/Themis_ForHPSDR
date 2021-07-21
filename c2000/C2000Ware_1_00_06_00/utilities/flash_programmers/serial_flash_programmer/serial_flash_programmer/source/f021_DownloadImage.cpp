@@ -11,20 +11,12 @@
 // $Release Date: Octobe 23, 2014 $
 //###########################################################################
 
-#include "../include/f021_DownloadImage.h"
-#include "../include/f021_DownloadKernel.h"
-#include "../include/f021_SendMessage.h"
-
-#include "stdafx.h"
-#include <stdint.h>
-#include <stdio.h>
-#include <stdlib.h>
-
 #ifndef __linux__
 #pragma once
 #include <conio.h>
 #include <windows.h>
 #include <dos.h>
+#include "stdafx.h"
 #endif
 
 // Linux exclusive
@@ -35,9 +27,17 @@
 #include <termios.h>
 #include <unistd.h>
 #include <fcntl.h>
-#include "linux_macros.h"
+#include "../linux_macros.h"
 
 #endif //__linux__
+
+#include "../include/f021_DownloadImage.h"
+#include "../include/f021_DownloadKernel.h"
+#include "../include/f021_SendMessage.h"
+
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 
 //*****************************************************************************
@@ -102,6 +102,7 @@ int f021_DownloadImage(wchar_t* applicationFile);
 // Returns -1 on failure.
 //
 //*****************************************************************************
+#ifndef __linux__
 #define checksum_enable 1
 #define g_bBlockSize 0x80 //number of words transmitted until checksum
 #include <assert.h>
@@ -289,6 +290,8 @@ void loadProgram_checksum(FILE *fh)
 	QUIETPRINT(_T("\nBit rate /s of transfer was: %f"), bitRate);
 	rcvData = 0;
 }
+#endif // __linux__
+
 int
 f021_DownloadImage(wchar_t* applicationFile)
 {
@@ -311,7 +314,7 @@ f021_DownloadImage(wchar_t* applicationFile)
 
     //Opens the application file 
     #ifdef __linux__
-    Afh = fopen(applicationFile, _T("rb"));
+    Afh = fopen(applicationFile, "rb");
     #else
 	Afh = _tfopen(applicationFile, L"rb");
 	#endif

@@ -11,10 +11,6 @@
 // $Release Date: Octobe 23, 2014 $
 //###########################################################################
 
-#include "../include/f021_SendMessage.h"
-#include "../include/f021_DownloadKernel.h"
-
-#include "stdafx.h"
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -23,6 +19,7 @@ using namespace std;
 
 #ifndef __linux__
 #pragma once
+#include "stdafx.h"
 #include <conio.h>
 #include <windows.h>
 #include <dos.h>
@@ -36,9 +33,12 @@ using namespace std;
 #include <termios.h>
 #include <unistd.h>
 #include <fcntl.h>
-#include "linux_macros.h"
+#include "../linux_macros.h"
 
 #endif //__linux__
+
+#include "../include/f021_SendMessage.h"
+#include "../include/f021_DownloadKernel.h"
 
 
 //*****************************************************************************
@@ -160,9 +160,7 @@ f021_SendPacket(uint8_t* packet, uint32_t length)
 	for (int i = 0; i < length; i++)
 	{
 #ifdef __linux__
-		unsigned char buf[8];
 		int wr;
-		int readf;
 		wr = 0;
 		wr = write(fd, &packet[i], 1);	
 #else
@@ -170,6 +168,9 @@ f021_SendPacket(uint8_t* packet, uint32_t length)
 #endif
 	} //finished sending packet
 #ifdef __linux__
+    unsigned char buf[8];
+    int readf;
+
 	buf[0] = 0;
 	dwRead = 0;
 	while (dwRead == 0){
@@ -213,6 +214,9 @@ int receiveACK(void)
 	DWORD dwRead;
 
 #ifdef __linux__
+    unsigned char buf[8];
+    int readf;
+
 	buf[0] = 0;
 	dwRead = 0;
 	while (dwRead == 0){
@@ -254,6 +258,9 @@ uint16_t getWord(void)
 	DWORD dwRead;
 
 #ifdef __linux__
+    unsigned char buf[8];
+    int readf;
+
 	buf[0] = 0;
 	dwRead = 0;
 	while (dwRead == 0){
@@ -363,7 +370,7 @@ void sendACK(void)
 	unsigned char sendData[8];
 	sendData[0] = ACK;
 #ifdef __linux__
-	wr = write(fd, &sendData[0], 1);
+	int wr = write(fd, &sendData[0], 1);
 #else
 	WriteFile(file, &sendData[0], 1, &dwWritten, NULL);
 #endif
@@ -381,7 +388,7 @@ void sendNAK(void)
 	unsigned char sendData[8];
 	sendData[0] = NAK;
 #ifdef __linux__
-	wr = write(fd, &sendData[0], 1);
+	int wr = write(fd, &sendData[0], 1);
 #else
 	WriteFile(file, &sendData[0], 1, &dwWritten, NULL);
 #endif

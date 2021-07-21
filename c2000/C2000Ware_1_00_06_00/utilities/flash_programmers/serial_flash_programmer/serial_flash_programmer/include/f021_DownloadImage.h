@@ -14,10 +14,13 @@
 #ifndef __F021_DOWNLOADIMAGE__
 #define __F021_DOWNLOADIMAGE__
 
+#include <stdio.h>
+#include <stdint.h>
+
 extern void clearBuffer(void);
 extern void autobaudLock(void);
 extern void loadProgram(FILE *fh);
 extern int f021_SendFunctionPacket(uint8_t message);
-int f021_DownloadImage(wchar_t* applicationFile);
+int f021_DownloadImage(TCHAR* applicationFile);
 
 #endif
